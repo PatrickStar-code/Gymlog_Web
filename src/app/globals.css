@@ -198,3 +198,28 @@
     letter-spacing: var(--tracking-normal);
   }
 }
+
+/* tailwind.config.js or global.css */
+.intro-wrapper {
+  @apply bg-black text-white flex flex-col items-center justify-center h-screen overflow-hidden relative;
+}
+
+.norea-orb {
+  @apply relative rounded-full shadow-[0_0_80px_rgba(0,255,0,0.6)];
+}
+
+.intro-title {
+  @apply mt-10 text-4xl font-bold tracking-wide text-center;
+}
+
+.intro-buttons {
+  @apply mt-6 flex gap-4;
+}
+
+.btn-info {
+  @apply text-green-400 border-green-400 hover:bg-green-900;
+}
+
+.btn-login {
+  @apply bg-green-500 text-black hover:bg-green-400;
+}
