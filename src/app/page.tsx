@@ -30,7 +30,9 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
     theme === "dark" ? new THREE.Color(0x0a0a0a) : new THREE.Color(0xffffff);
 
   const getParticleColor = (theme: string) =>
-    theme === "dark" ? new THREE.Vector3(0.4, 0.6, 1.0) : new THREE.Vector3(0.2, 0.4, 0.8);
+    theme === "dark"
+      ? new THREE.Vector3(0.4, 0.6, 1.0)
+      : new THREE.Vector3(0.2, 0.4, 0.8);
 
   const particleVertex = `
     attribute float scale;
@@ -60,7 +62,12 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
     const canvas = canvasRef.current;
     const winWidth = window.innerWidth;
     const winHeight = window.innerHeight;
-    const camera = new THREE.PerspectiveCamera(75, winWidth / winHeight, 0.01, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      winWidth / winHeight,
+      0.01,
+      1000
+    );
     camera.position.set(0, 6, 5);
 
     const scene = new THREE.Scene();
@@ -96,8 +103,14 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
     }
 
     const particleGeometry = new THREE.BufferGeometry();
-    particleGeometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
-    particleGeometry.setAttribute("scale", new THREE.BufferAttribute(particleScales, 1));
+    particleGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(particlePositions, 3)
+    );
+    particleGeometry.setAttribute(
+      "scale",
+      new THREE.BufferAttribute(particleScales, 1)
+    );
 
     const particleMaterial = new THREE.ShaderMaterial({
       transparent: true,
@@ -127,7 +140,9 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
     const { scene, camera, renderer, particleMaterial } = sceneRef.current;
 
     particleMaterial.uniforms.uTime.value += 0.05;
-    particleMaterial.uniforms.uColor.value = getParticleColor(getCurrentTheme());
+    particleMaterial.uniforms.uColor.value = getParticleColor(
+      getCurrentTheme()
+    );
 
     camera.lookAt(scene.position);
     renderer.render(scene, camera);
@@ -149,13 +164,14 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
     window.addEventListener("resize", handleResize);
 
     return () => {
-      if (sceneRef.current?.animationId) cancelAnimationFrame(sceneRef.current.animationId);
+      if (sceneRef.current?.animationId)
+        cancelAnimationFrame(sceneRef.current.animationId);
       window.removeEventListener("resize", handleResize);
       if (sceneRef.current) {
         const { scene, renderer, particles } = sceneRef.current;
         scene.remove(particles);
         particles.geometry.dispose();
-        particles.material.dispose();
+        (particles.material as THREE.Material).dispose();
         renderer.dispose();
       }
     };
@@ -175,17 +191,20 @@ const WorkoutDietManager: React.FC = () => {
     {
       icon: Dumbbell,
       title: "Controle de Treinos",
-      description: "Registre e acompanhe seus treinos com estatísticas detalhadas.",
+      description:
+        "Registre e acompanhe seus treinos com estatísticas detalhadas.",
     },
     {
       icon: Apple,
       title: "Planejamento Alimentar",
-      description: "Controle suas calorias, macros e monte planos personalizados.",
+      description:
+        "Controle suas calorias, macros e monte planos personalizados.",
     },
     {
       icon: TrendingUp,
       title: "Evolução e Resultados",
-      description: "Visualize seu progresso com gráficos e relatórios completos.",
+      description:
+        "Visualize seu progresso com gráficos e relatórios completos.",
     },
   ];
 
@@ -229,8 +248,8 @@ const WorkoutDietManager: React.FC = () => {
               transition={{ delay: 0.5 }}
               className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed font-light tracking-wide max-w-2xl mx-auto"
             >
-              Registre seus treinos, gerencie sua alimentação e alcance suas metas de
-              forma inteligente com nossa plataforma completa.
+              Registre seus treinos, gerencie sua alimentação e alcance suas
+              metas de forma inteligente com nossa plataforma completa.
             </motion.p>
 
             <motion.div
@@ -258,13 +277,20 @@ const WorkoutDietManager: React.FC = () => {
               className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               {features.map((feature, i) => (
-                <Card key={i} className="bg-card/50 backdrop-blur border border-border/50">
+                <Card
+                  key={i}
+                  className="bg-card/50 backdrop-blur border border-border/50"
+                >
                   <CardHeader className="flex flex-col items-center gap-2">
                     <feature.icon className="h-10 w-10 text-primary mb-2" />
-                    <CardTitle className="text-xl text-center">{feature.title}</CardTitle>
+                    <CardTitle className="text-xl text-center">
+                      {feature.title}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground text-center">{feature.description}</p>
+                    <p className="text-muted-foreground text-center">
+                      {feature.description}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
