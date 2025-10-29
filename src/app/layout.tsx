@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Gymlog",
   description: "A web app to track your gym progress",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
