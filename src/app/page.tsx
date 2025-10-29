@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Dumbbell, Apple, TrendingUp, Calendar, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 interface WaveBackgroundProps {
   className?: string;
@@ -237,7 +238,7 @@ const WorkoutDietManager: React.FC = () => {
                 Transforme sua
               </span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-primary to-purple-500">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-primary to-orange-800">
                 Jornada Fitness
               </span>
             </motion.h1>
@@ -258,16 +259,24 @@ const WorkoutDietManager: React.FC = () => {
               transition={{ delay: 0.7 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <Button size="lg" className="text-lg px-8 py-6 rounded-full">
-                <Dumbbell className="mr-2 h-5 w-5" /> Começar Agora
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-lg px-8 py-6 rounded-full"
-              >
-                <Calendar className="mr-2 h-5 w-5" /> Saiba Mais
-              </Button>
+              {" "}
+              <Link href="/GymLog/login">
+                <Button
+                  size="lg"
+                  className="text-lg px-8 py-6 rounded-full cursor-pointer"
+                >
+                  <Dumbbell className="mr-2 h-5 w-5" /> Começar Agora
+                </Button>
+              </Link>
+              <Link href="/Gymlog">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-lg px-8 py-6 rounded-full cursor-pointer"
+                >
+                  <Calendar className="mr-2 h-5 w-5" /> Saiba Mais
+                </Button>
+              </Link>
             </motion.div>
 
             <motion.div
