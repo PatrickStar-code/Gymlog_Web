@@ -223,3 +223,8 @@
 .btn-login {
   @apply bg-green-500 text-black hover:bg-green-400;
 }
+
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
