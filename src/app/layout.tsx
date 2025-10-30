@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import ThemeContextProvider from "./Contexts/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +32,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-        <AnimatedThemeToggler className="fixed right-10 top-10 " />
+        <ThemeContextProvider>
+          {children}
+          <AnimatedThemeToggler className="fixed right-10 top-10 z-50 bg-[#BF4520] text-white p-4 rounded-2xl " />
+        </ThemeContextProvider>
       </body>
     </html>
   );
