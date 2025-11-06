@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FormLogin from "@/components/formLogin";
 import FormRegister from "@/components/formRegister";
-import { Facebook, NotepadText } from "lucide-react";
+import { NotepadText } from "lucide-react";
 import { Button } from "@/components/button-notFound";
 import { RiFacebookFill, RiGoogleFill } from "@remixicon/react";
 
@@ -72,13 +72,6 @@ export default function AuthPage() {
             className="mt-4 w-64 h-64 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shadow-lg"
           >
             <NotepadText className="w-32 h-32" />
-            {/* <motion.img
-              src="/fitness-illustration.svg"
-              alt="Fitness illustration"
-              className="w-44 h-44 object-contain"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            /> */}
           </motion.div>
         </motion.div>
 
@@ -134,21 +127,25 @@ export default function AuthPage() {
             {/* Social Login */}
             <div className="mt-6 text-center text-sm text-gray-500">
               <p>Ou continue com</p>
-              <div className="inline-flex flex-wrap gap-2">
-                <Button
-                  variant="outline"
-                  aria-label="Login with Google"
-                  size="icon"
-                >
-                  <RiGoogleFill size={16} aria-hidden="true" />
-                </Button>
-                <Button
-                  variant="outline"
-                  aria-label="Login with Facebook"
-                  size="icon"
-                >
-                  <RiFacebookFill size={16} aria-hidden="true" />
-                </Button>
+              <div className="flex flex-wrap items-center justify-center gap-2 mr-8 mt-4">
+                <div>
+                  <Button
+                    variant="outline"
+                    aria-label="Login with Google"
+                    size="icon"
+                  >
+                    <RiGoogleFill size={16} aria-hidden="true" />
+                  </Button>
+                </div>
+                <div>
+                  <Button
+                    variant="outline"
+                    aria-label="Login with Facebook"
+                    size="icon"
+                  >
+                    <RiFacebookFill size={16} aria-hidden="true" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
