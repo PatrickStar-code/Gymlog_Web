@@ -96,7 +96,7 @@ export default function AuthPage() {
                   onClick={() => switchTo("signin")}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition ${
                     mode === "signin"
-                      ? "bg-orange-100 text-orange-700"
+                      ? "bg-orange-500 text-white"
                       : "text-gray-500 hover:bg-gray-100"
                   }`}
                 >
