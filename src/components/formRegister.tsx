@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { slide } from "@/app/GymLog/login/page";
+import { slide } from "@/app/GymLog/auth/login/page";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";

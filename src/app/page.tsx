@@ -260,7 +260,7 @@ const WorkoutDietManager: React.FC = () => {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               {" "}
-              <Link href="/GymLog/login">
+              <Link href="/GymLog/auth/login">
                 <Button
                   size="lg"
                   className="text-lg px-8 py-6 rounded-full cursor-pointer"
