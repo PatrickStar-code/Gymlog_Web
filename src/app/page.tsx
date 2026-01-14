@@ -268,7 +268,7 @@ const WorkoutDietManager: React.FC = () => {
                   <Dumbbell className="mr-2 h-5 w-5" /> Começar Agora
                 </Button>
               </Link>
-              <Link href="/Gymlog">
+              <Link href="/GymLog/about">
                 <Button
                   size="lg"
                   variant="outline"
