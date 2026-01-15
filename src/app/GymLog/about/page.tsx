@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import * as React from "react";
@@ -156,8 +157,8 @@ const Logo = ({ className }: { className?: string }) => {
 // Header Component
 const menuItems = [
   { name: "Features", href: "#features" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Testimonials", href: "#testimonials" },
+  { name: "Preço", href: "#pricing" },
+  { name: "Depoimentos", href: "#testimonials" },
   { name: "FAQ", href: "#faq" },
 ];
 
@@ -241,19 +242,11 @@ const Header = () => {
               </div>
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                 <Button
-                  onClick={() => smoothScrollTo("#contact")}
-                  variant="outline"
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <span>Login</span>
-                </Button>
-                <Button
                   onClick={() => smoothScrollTo("#pricing")}
                   size="sm"
                   className={cn(isScrolled ? "lg:inline-flex" : "lg:flex")}
                 >
-                  <span>Get Started</span>
+                  <span>Comece Agora!</span>
                 </Button>
               </div>
             </div>
@@ -331,24 +324,25 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              Transform Your{" "}
+              Transforme sua{" "}
               <span className="relative inline-block">
-                <span className="bg-gradient-to-r from-primary via-purple-500 to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-                  Fitness Journey
+                <span className="bg-gradient-to-r from-primary via-orange-500 to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                  Jornada Fitness
                 </span>
                 <motion.span
-                  className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-purple-500 rounded-full"
+                  className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-orange-500 rounded-full"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.5, duration: 0.8 }}
                 />
               </span>{" "}
-              with GymLog
+              com GymLog
             </motion.h1>
-            <p className="mx-auto mt-8 max-w-2xl text-balance text-xl text-muted-foreground leading-relaxed">
-              Track workouts, manage your diet, and get personalized AI-powered
-              training plans. Everything you need to reach your fitness goals in
-              one platform.
+            <p className="mx-auto mt-8 max-w-6xl text-balance text-xl text-muted-foreground leading-relaxed">
+              Monitore seus treinos, gerencie sua dieta e receba planos de
+              treinamento personalizados com inteligência artificial. Tudo o que
+              você precisa para alcançar seus objetivos de condicionamento
+              físico em uma única plataforma.
             </p>
           </AnimatedGroup>
 
@@ -365,34 +359,7 @@ const HeroSection = () => {
               ...transitionVariants,
             }}
             className="mt-12 flex flex-col items-center justify-center gap-4 md:flex-row"
-          >
-            <motion.div
-              className="relative group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
-              <Button
-                onClick={() => smoothScrollTo("#pricing")}
-                size="lg"
-                className="relative rounded-xl px-8 py-6 text-lg font-semibold bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
-              >
-                <Zap className="mr-2 h-5 w-5" />
-                <span className="text-nowrap">Start Free Trial</span>
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                onClick={() => smoothScrollTo("#features")}
-                size="lg"
-                variant="outline"
-                className="rounded-xl px-8 py-6 text-lg font-semibold border-2 hover:bg-primary/10 hover:border-primary"
-              >
-                <span className="text-nowrap">See How It Works</span>
-              </Button>
-            </motion.div>
-          </AnimatedGroup>
+          ></AnimatedGroup>
         </div>
       </div>
 
@@ -407,15 +374,15 @@ const ProofSection = () => {
     <section className="bg-background py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <p className="text-center text-sm text-muted-foreground mb-8">
-          Trusted by fitness enthusiasts worldwide
+          Aprovado por entusiastas do fitness em todo o mundo.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 opacity-60">
           <div className="text-2xl font-bold">10K+</div>
-          <div className="text-muted-foreground">Active Users</div>
+          <div className="text-muted-foreground">Usuários Ativos</div>
           <div className="text-2xl font-bold">50K+</div>
-          <div className="text-muted-foreground">Workouts Logged</div>
+          <div className="text-muted-foreground">Treinos Registrados</div>
           <div className="text-2xl font-bold">4.9★</div>
-          <div className="text-muted-foreground">User Rating</div>
+          <div className="text-muted-foreground">Nota pelos Usuários</div>
         </div>
       </div>
     </section>
@@ -427,45 +394,39 @@ const FeaturesSection = () => {
   const features = [
     {
       icon: <Dumbbell className="h-6 w-6" />,
-      title: "Workout Tracking",
+      title: "Acompanhamento de Treinos",
       description:
-        "Log your exercises, sets, reps, and weights. Track your progress over time with detailed analytics.",
-      badge: "Core",
+        "Registre seus exercícios, séries, repetições e cargas. Acompanhe seu progresso ao longo do tempo com análises detalhadas.",
     },
     {
       icon: <Apple className="h-6 w-6" />,
-      title: "Diet Management",
+      title: "Gestão de Dieta",
       description:
-        "Plan your meals, track calories and macros. Get personalized nutrition recommendations.",
-      badge: "Essential",
+        "Planeje suas refeições, acompanhe calorias e macronutrientes. Receba recomendações nutricionais personalizadas.",
     },
     {
       icon: <Brain className="h-6 w-6" />,
-      title: "AI Tutor",
+      title: "Tutor com IA",
       description:
-        "Get custom workout plans generated by AI based on your goals, experience, and available equipment.",
-      badge: "AI-Powered",
+        "Receba planos de treino personalizados gerados por IA com base em seus objetivos, experiência e equipamentos disponíveis.",
     },
     {
       icon: <TrendingUp className="h-6 w-6" />,
-      title: "Progress Analytics",
+      title: "Análise de Progresso",
       description:
-        "Visualize your fitness journey with comprehensive charts and insights.",
-      badge: "Insights",
+        "Visualize sua jornada fitness com gráficos completos e insights detalhados.",
     },
     {
       icon: <Calendar className="h-6 w-6" />,
-      title: "Smart Scheduling",
+      title: "Agendamento Inteligente",
       description:
-        "Plan your workouts in advance and get reminders to stay consistent.",
-      badge: "Smart",
+        "Planeje seus treinos com antecedência e receba lembretes para manter a consistência.",
     },
     {
       icon: <Users className="h-6 w-6" />,
-      title: "Community Support",
+      title: "Suporte da Comunidade",
       description:
-        "Connect with other fitness enthusiasts, share progress, and stay motivated.",
-      badge: "Social",
+        "Conecte-se com outros entusiastas do fitness, compartilhe seu progresso e mantenha-se motivado.",
     },
   ];
 
@@ -487,11 +448,11 @@ const FeaturesSection = () => {
             Features
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Everything You Need to Succeed
+            Tudo que você precisa para o sucesso
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Powerful features designed to help you achieve your fitness goals
-            faster
+            Funcionalidades poderosas concebidas para o ajudar a atingir os seus
+            objetivos de fitness mais rapidamente.
           </p>
         </motion.div>
 
@@ -532,52 +493,48 @@ const FeaturesSection = () => {
   );
 };
 
-// Pricing Section
 const PricingSection = () => {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
 
   const plans = [
     {
-      name: "Free",
+      name: "Gratuito",
       price: "$0",
-      period: "forever",
+      period: "para sempre",
       features: [
-        "Basic workout tracking",
-        "Limited diet logging",
-        "Community access",
-        "Mobile app access",
+        "Acompanhamento básico de treinos",
+        "Registro limitado de dieta",
+        "Acesso à comunidade",
+        "Acesso ao aplicativo móvel",
       ],
-      cta: "Get Started",
       popular: false,
     },
     {
       name: "Pro",
       price: "$9.99",
-      period: "per month",
+      period: "por mês",
       features: [
-        "Unlimited workout tracking",
-        "Full diet management",
-        "AI workout generator",
-        "Advanced analytics",
-        "Priority support",
-        "Custom meal plans",
+        "Acompanhamento ilimitado de treinos",
+        "Gerenciamento completo de dieta",
+        "Gerador de treinos com IA",
+        "Análises avançadas",
+        "Suporte prioritário",
+        "Planos de refeições personalizados",
       ],
-      cta: "Start Free Trial",
       popular: true,
     },
     {
-      name: "Team",
+      name: "Equipe",
       price: "$29.99",
-      period: "per month",
+      period: "por mês",
       features: [
-        "Everything in Pro",
-        "Up to 5 team members",
-        "Shared workout plans",
-        "Team progress tracking",
-        "Dedicated account manager",
-        "Custom integrations",
+        "Tudo do plano Pro",
+        "Até 5 membros da equipe",
+        "Planos de treino compartilhados",
+        "Acompanhamento do progresso da equipe",
+        "Gerente de conta dedicado",
+        "Integrações personalizadas",
       ],
-      cta: "Contact Sales",
       popular: false,
     },
   ];
@@ -601,14 +558,14 @@ const PricingSection = () => {
             Pricing
           </Badge>
           <h2 className="text-4xl md:text-6xl font-black mb-4">
-            Simple, Transparent{" "}
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-              Pricing
+            Simples, Transparente{" "}
+            <span className="bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
+              Preços
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose the plan that fits your needs. All plans include a 14-day
-            free trial.
+            Escolha o plano que melhor se adapta às suas necessidades. Todos os
+            planos incluem um período de teste gratuito de 14 dias.
           </p>
         </motion.div>
 
@@ -645,11 +602,11 @@ const PricingSection = () => {
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <motion.span
-                      className="bg-gradient-to-r from-primary to-purple-600 text-primary-foreground px-6 py-1.5 rounded-full text-sm font-bold shadow-lg"
+                      className="bg-gradient-to-r from-primary to-orange-600 text-primary-foreground px-6 py-1.5 rounded-full text-sm font-bold shadow-lg"
                       animate={{ scale: [1, 1.05, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      Most Popular
+                      Mais Popular
                     </motion.span>
                   </div>
                 )}
@@ -672,19 +629,7 @@ const PricingSection = () => {
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                  >
-                    <Button
-                      className={cn(
-                        "w-full font-semibold",
-                        plan.popular &&
-                          "bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg"
-                      )}
-                      variant={plan.popular ? "default" : "outline"}
-                      size="lg"
-                    >
-                      {plan.cta}
-                    </Button>
-                  </motion.div>
+                  ></motion.div>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-4">
@@ -751,14 +696,12 @@ function TestimonialsSection({
         >
           <Badge variant="outline" className="mb-2">
             <Users className="h-3 w-3 mr-1" />
-            Testimonials
+            Depoimentos
           </Badge>
           <h2 className="max-w-[720px] text-3xl font-semibold leading-tight sm:text-5xl sm:leading-tight">
             {title}
           </h2>
-          <p className="text-md max-w-[600px] font-medium text-muted-foreground sm:text-xl">
-            {description}
-          </p>
+          <p className="text-md max-w-[600px] font-medium text-muted-foreground sm:text-xl"></p>
         </motion.div>
 
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
@@ -786,34 +729,34 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      question: "How does the AI workout generator work?",
+      question: "Como funciona o gerador de treinos com IA?",
       answer:
-        "Our AI analyzes your fitness level, goals, available equipment, and preferences to create personalized workout plans. It adapts based on your progress and feedback.",
+        "Nossa IA analisa seu nível de condicionamento físico, objetivos, equipamentos disponíveis e preferências para criar planos de treino personalizados. Ela se adapta com base no seu progresso e feedback.",
     },
     {
-      question: "Can I use GymLog offline?",
+      question: "Posso usar o GymLog offline?",
       answer:
-        "Yes! Our mobile app works offline. Your data will sync automatically when you're back online.",
+        "Sim! Nosso aplicativo móvel funciona offline. Seus dados serão sincronizados automaticamente quando você voltar a ficar online.",
     },
     {
-      question: "Is there a free trial?",
+      question: "Existe um teste gratuito?",
       answer:
-        "Absolutely! All paid plans come with a 14-day free trial. No credit card required to start.",
+        "Com certeza! Todos os planos pagos incluem um teste gratuito de 14 dias. Não é necessário cartão de crédito para começar.",
     },
     {
-      question: "Can I track multiple types of workouts?",
+      question: "Posso acompanhar diferentes tipos de treinos?",
       answer:
-        "Yes, GymLog supports all types of workouts including strength training, cardio, yoga, CrossFit, and more.",
+        "Sim, o GymLog oferece suporte a todos os tipos de treino, incluindo musculação, cardio, yoga, CrossFit e muito mais.",
     },
     {
-      question: "How accurate is the calorie tracking?",
+      question: "Quão preciso é o controle de calorias?",
       answer:
-        "We use a comprehensive food database with over 1 million items. You can also add custom foods and recipes for precise tracking.",
+        "Utilizamos um banco de dados alimentar completo com mais de 1 milhão de itens. Você também pode adicionar alimentos e receitas personalizadas para um acompanhamento mais preciso.",
     },
     {
-      question: "Can I export my data?",
+      question: "Posso exportar meus dados?",
       answer:
-        "Yes, you can export all your workout and nutrition data in CSV or PDF format at any time.",
+        "Sim, você pode exportar todos os seus dados de treino e nutrição em formato CSV ou PDF a qualquer momento.",
     },
   ];
 
@@ -835,10 +778,10 @@ const FAQSection = () => {
             FAQ
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Frequently Asked Questions
+            Perguntas frequentes
           </h2>
           <p className="text-lg text-muted-foreground">
-            Everything you need to know about GymLog
+            Tudo que você precisa saber sobre o Gymlog
           </p>
         </motion.div>
 
@@ -899,11 +842,13 @@ const ContactSection = () => {
         >
           <Badge variant="outline" className="mb-4">
             <Send className="h-3 w-3 mr-1" />
-            Contact
+            Contato
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Entre em Contato
+          </h2>
           <p className="text-lg text-muted-foreground">
-            Have questions? We'd love to hear from you.
+            Tem alguma dúvida? Adoraríamos ouvi-la.
           </p>
         </motion.div>
 
@@ -918,8 +863,8 @@ const ContactSection = () => {
               <form className="space-y-6">
                 <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Name</label>
-                    <Input placeholder="Your name" />
+                    <label className="text-sm font-medium">Nome</label>
+                    <Input placeholder="Seu Nome" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Email</label>
@@ -927,16 +872,16 @@ const ContactSection = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Subject</label>
-                  <Input placeholder="How can we help?" />
+                  <label className="text-sm font-medium">Assunto</label>
+                  <Input placeholder="Como podemos ajudar?" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Message</label>
-                  <Textarea placeholder="Tell us more..." rows={5} />
+                  <Textarea placeholder="Fale mais..." rows={5} />
                 </div>
                 <Button className="w-full" size="lg">
                   <Send className="mr-2 h-4 w-4" />
-                  Send Message
+                  Enviar Mensagem
                 </Button>
               </form>
             </CardContent>
@@ -956,13 +901,13 @@ const FooterSection = () => {
           <div className="relative">
             <Logo className="mb-4" />
             <p className="mb-6 text-muted-foreground">
-              Transform your fitness journey with AI-powered workout and diet
-              management.
+              Transforme sua jornada fitness com gerenciamento inteligente de
+              treinos e dietas utilizando inteligência artificial.
             </p>
             <form className="relative">
               <Input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Digite seu e-mail"
                 className="pr-12"
               />
               <Button
@@ -974,43 +919,45 @@ const FooterSection = () => {
               </Button>
             </form>
           </div>
+
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Product</h3>
+            <h3 className="mb-4 text-lg font-semibold">Produto</h3>
             <nav className="space-y-2 text-sm">
               <a
                 href="#features"
                 className="block transition-colors hover:text-primary"
               >
-                Features
+                Funcionalidades
               </a>
               <a
                 href="#pricing"
                 className="block transition-colors hover:text-primary"
               >
-                Pricing
+                Planos
               </a>
               <a
                 href="#testimonials"
                 className="block transition-colors hover:text-primary"
               >
-                Testimonials
+                Depoimentos
               </a>
               <a
                 href="#faq"
                 className="block transition-colors hover:text-primary"
               >
-                FAQ
+                Perguntas Frequentes
               </a>
             </nav>
           </div>
+
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Company</h3>
+            <h3 className="mb-4 text-lg font-semibold">Empresa</h3>
             <nav className="space-y-2 text-sm">
               <a
                 href="#"
                 className="block transition-colors hover:text-primary"
               >
-                About Us
+                Sobre Nós
               </a>
               <a
                 href="#"
@@ -1022,18 +969,19 @@ const FooterSection = () => {
                 href="#"
                 className="block transition-colors hover:text-primary"
               >
-                Careers
+                Carreiras
               </a>
               <a
                 href="#contact"
                 className="block transition-colors hover:text-primary"
               >
-                Contact
+                Contato
               </a>
             </nav>
           </div>
+
           <div className="relative">
-            <h3 className="mb-4 text-lg font-semibold">Follow Us</h3>
+            <h3 className="mb-4 text-lg font-semibold">Siga-nos</h3>
             <div className="flex space-x-4">
               <Button variant="outline" size="icon" className="rounded-full">
                 <Facebook className="h-4 w-4" />
@@ -1050,19 +998,20 @@ const FooterSection = () => {
             </div>
           </div>
         </div>
+
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © 2024 GymLog. All rights reserved.
+            © 2024 GymLog. Todos os direitos reservados.
           </p>
           <nav className="flex gap-4 text-sm">
             <a href="#" className="transition-colors hover:text-primary">
-              Privacy Policy
+              Política de Privacidade
             </a>
             <a href="#" className="transition-colors hover:text-primary">
-              Terms of Service
+              Termos de Uso
             </a>
             <a href="#" className="transition-colors hover:text-primary">
-              Cookie Settings
+              Configurações de Cookies
             </a>
           </nav>
         </div>
@@ -1072,7 +1021,7 @@ const FooterSection = () => {
 };
 
 // Main Landing Page Component
-function GymLogLandingPage() {
+export default function GymLogLandingPage() {
   const testimonials = [
     {
       author: {
@@ -1081,7 +1030,7 @@ function GymLogLandingPage() {
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
       },
-      text: "GymLog has completely transformed how I approach fitness. The AI workout generator creates perfect plans for my goals, and tracking my progress has never been easier!",
+      text: "O GymLog transformou completamente a minha abordagem à atividade física. O gerador de treinos com IA cria planos perfeitos para os meus objetivos, e acompanhar o meu progresso nunca foi tão fácil!",
     },
     {
       author: {
@@ -1090,7 +1039,7 @@ function GymLogLandingPage() {
         avatar:
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
       },
-      text: "As a personal trainer, I recommend GymLog to all my clients. The diet tracking and workout logging features are incredibly intuitive and powerful.",
+      text: "Como personal trainer, recomendo o GymLog a todos os meus clientes. As funcionalidades de acompanhamento da dieta e registo de treinos são incrivelmente intuitivas e poderosas.",
     },
     {
       author: {
@@ -1099,7 +1048,7 @@ function GymLogLandingPage() {
         avatar:
           "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
       },
-      text: "I've tried many fitness apps, but GymLog is by far the best. The AI tutor feels like having a personal trainer in my pocket. Highly recommended!",
+      text: "Já experimentei muitas aplicações de fitness, mas o GymLog é de longe a melhor. O tutor de IA é como ter um personal trainer no bolso. Altamente recomendado!",
     },
     {
       author: {
@@ -1108,7 +1057,7 @@ function GymLogLandingPage() {
         avatar:
           "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
       },
-      text: "The progress analytics in GymLog are amazing. Seeing my improvements over time keeps me motivated and helps me stay consistent with my training.",
+      text: "As análises de progresso do GymLog são incríveis. Ver a minha evolução ao longo do tempo mantém-me motivado e ajuda-me a manter a consistência nos treinos.",
     },
   ];
 
@@ -1121,8 +1070,9 @@ function GymLogLandingPage() {
         <FeaturesSection />
         <PricingSection />
         <TestimonialsSection
-          title="Loved by Fitness Enthusiasts"
-          description="Join thousands of users who have transformed their fitness journey with GymLog"
+          title="Amado por entusiastas Fitness"
+          description="Junte-se a milhares de usuários que transformaram sua jornada fitness com o GymLog.
+"
           testimonials={testimonials}
         />
         <FAQSection />
@@ -1132,5 +1082,3 @@ function GymLogLandingPage() {
     </div>
   );
 }
-
-export default GymLogLandingPage;
