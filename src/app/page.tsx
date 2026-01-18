@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 import { Dumbbell, Apple, TrendingUp, Calendar, Users } from "lucide-react";
@@ -57,99 +57,19 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
     }
   `;
 
-  const initScene = () => {
-    if (!canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const winWidth = window.innerWidth;
-    const winHeight = window.innerHeight;
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      winWidth / winHeight,
-      0.01,
-      1000
-    );
-    camera.position.set(0, 6, 5);
-
-    const scene = new THREE.Scene();
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true,
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(winWidth, winHeight);
-    renderer.setClearColor(getBackgroundColor(getCurrentTheme()), 0);
-
-    const gap = 0.3;
-    const amountX = 200;
-    const amountY = 200;
-    const particleNum = amountX * amountY;
-
-    const particlePositions = new Float32Array(particleNum * 3);
-    const particleScales = new Float32Array(particleNum);
-
-    let i = 0;
-    let j = 0;
-    for (let ix = 0; ix < amountX; ix++) {
-      for (let iy = 0; iy < amountY; iy++) {
-        particlePositions[i] = ix * gap - (amountX * gap) / 2;
-        particlePositions[i + 1] = 0;
-        particlePositions[i + 2] = iy * gap - (amountY * gap) / 2;
-        particleScales[j] = 1;
-        i += 3;
-        j++;
-      }
-    }
-
-    const particleGeometry = new THREE.BufferGeometry();
-    particleGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(particlePositions, 3)
-    );
-    particleGeometry.setAttribute(
-      "scale",
-      new THREE.BufferAttribute(particleScales, 1)
-    );
-
-    const particleMaterial = new THREE.ShaderMaterial({
-      transparent: true,
-      vertexShader: particleVertex,
-      fragmentShader: particleFragment,
-      uniforms: {
-        uTime: { value: 0 },
-        uColor: { value: getParticleColor(getCurrentTheme()) },
-      },
-    });
-
-    const particles = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particles);
-
-    sceneRef.current = {
-      scene,
-      camera,
-      renderer,
-      particles,
-      particleMaterial,
-      animationId: null,
-    };
-  };
-
-  const animate = () => {
+  const animate = useCallback(() => {
     if (!sceneRef.current) return;
     const { scene, camera, renderer, particleMaterial } = sceneRef.current;
 
     particleMaterial.uniforms.uTime.value += 0.05;
-    particleMaterial.uniforms.uColor.value = getParticleColor(
-      getCurrentTheme()
-    );
+    particleMaterial.uniforms.uColor.value =
+      getParticleColor(getCurrentTheme());
 
     camera.lookAt(scene.position);
     renderer.render(scene, camera);
 
     sceneRef.current.animationId = requestAnimationFrame(animate);
-  };
+  }, []);
 
   const handleResize = () => {
     if (!sceneRef.current) return;
@@ -160,6 +80,85 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
   };
 
   useEffect(() => {
+    const initScene = () => {
+      if (!canvasRef.current) return;
+
+      const canvas = canvasRef.current;
+      const winWidth = window.innerWidth;
+      const winHeight = window.innerHeight;
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        winWidth / winHeight,
+        0.01,
+        1000,
+      );
+      camera.position.set(0, 6, 5);
+
+      const scene = new THREE.Scene();
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+      });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(winWidth, winHeight);
+      renderer.setClearColor(getBackgroundColor(getCurrentTheme()), 0);
+
+      const gap = 0.3;
+      const amountX = 200;
+      const amountY = 200;
+      const particleNum = amountX * amountY;
+
+      const particlePositions = new Float32Array(particleNum * 3);
+      const particleScales = new Float32Array(particleNum);
+
+      let i = 0;
+      let j = 0;
+      for (let ix = 0; ix < amountX; ix++) {
+        for (let iy = 0; iy < amountY; iy++) {
+          particlePositions[i] = ix * gap - (amountX * gap) / 2;
+          particlePositions[i + 1] = 0;
+          particlePositions[i + 2] = iy * gap - (amountY * gap) / 2;
+          particleScales[j] = 1;
+          i += 3;
+          j++;
+        }
+      }
+
+      const particleGeometry = new THREE.BufferGeometry();
+      particleGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(particlePositions, 3),
+      );
+      particleGeometry.setAttribute(
+        "scale",
+        new THREE.BufferAttribute(particleScales, 1),
+      );
+
+      const particleMaterial = new THREE.ShaderMaterial({
+        transparent: true,
+        vertexShader: particleVertex,
+        fragmentShader: particleFragment,
+        uniforms: {
+          uTime: { value: 0 },
+          uColor: { value: getParticleColor(getCurrentTheme()) },
+        },
+      });
+
+      const particles = new THREE.Points(particleGeometry, particleMaterial);
+      scene.add(particles);
+
+      sceneRef.current = {
+        scene,
+        camera,
+        renderer,
+        particles,
+        particleMaterial,
+        animationId: null,
+      };
+    };
+
     initScene();
     animate();
     window.addEventListener("resize", handleResize);
@@ -176,7 +175,7 @@ const WaveBackground: React.FC<WaveBackgroundProps> = ({ className = "" }) => {
         renderer.dispose();
       }
     };
-  }, []);
+  }, [animate, particleFragment, particleVertex]);
 
   return (
     <canvas
@@ -212,7 +211,7 @@ const WorkoutDietManager: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
       <WaveBackground />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background" />
+      <div className="absolute inset-0 bg-linear-to-b from-background/50 via-background/80 to-background" />
       <div className="relative z-10 min-h-screen flex items-center justify-center">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center">
@@ -234,11 +233,11 @@ const WorkoutDietManager: React.FC = () => {
               transition={{ delay: 0.3 }}
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight"
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
+              <span className="bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/70">
                 Transforme sua
               </span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-300 via-primary to-orange-800">
+              <span className="bg-clip-text text-transparent bg-linear-to-r from-red-300 via-primary to-orange-800">
                 Jornada Fitness
               </span>
             </motion.h1>

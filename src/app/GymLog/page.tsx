@@ -16,15 +16,13 @@ import {
   Clock,
   CheckCircle2,
   Plus,
-  ArrowUpRight,
-  Calendar,
   Award,
 } from "lucide-react";
 import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
+import Image from "next/image";
 // Types
 interface Metric {
   label: string;
@@ -50,11 +48,12 @@ interface StatCardData {
   value: string;
   change: string;
   changeType: "positive" | "negative";
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
   chartData: { name: string; uv: number }[];
 }
 
 // Custom Tooltip for Charts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -186,7 +185,7 @@ function ActivityCard({
               <div
                 className={cn(
                   "absolute inset-0 rounded-full border-4 transition-all duration-500",
-                  isHovering === metric.label && "scale-105"
+                  isHovering === metric.label && "scale-105",
                 )}
                 style={{
                   borderColor: METRIC_COLORS[metric.label] || "#007AFF",
@@ -234,7 +233,7 @@ function ActivityCard({
                 key={goal.id}
                 onClick={() => onToggleGoal?.(goal.id)}
                 className={cn(
-                  "w-full flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border/50 hover:border-border transition-all"
+                  "w-full flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border/50 hover:border-border transition-all",
                 )}
               >
                 <CheckCircle2
@@ -242,7 +241,7 @@ function ActivityCard({
                     "w-5 h-5",
                     goal.isCompleted
                       ? "text-emerald-500"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 />
                 <span
@@ -250,7 +249,7 @@ function ActivityCard({
                     "text-sm text-left",
                     goal.isCompleted
                       ? "text-muted-foreground line-through"
-                      : "text-foreground"
+                      : "text-foreground",
                   )}
                 >
                   {goal.title}
@@ -278,7 +277,7 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 100, damping: 12 },
+    transition: { type: "spring" as const, stiffness: 100, damping: 12 },
   },
 };
 
@@ -321,8 +320,10 @@ function WorkoutCard({
               className="flex items-center gap-4 rounded-xl bg-muted p-4"
               variants={itemVariants}
             >
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full">
-                <img
+              <div className="flex h-10 w-10  items-center justify-center rounded-full">
+                <Image
+                  width={40}
+                  height={40}
                   src={exercise.iconSrc}
                   alt={`${exercise.name} icon`}
                   className="h-10 w-10"
@@ -343,64 +344,64 @@ function WorkoutCard({
 }
 
 // Pricing Card Component
-function PricingCard({
-  title,
-  price,
-  description,
-  features,
-  highlight = false,
-}: {
-  title: string;
-  price: string;
-  description: string;
-  features: string[];
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className={`flex flex-col justify-between p-6 space-y-4 ${
-        highlight
-          ? "bg-secondary rounded-xl w-full md:w-1/2 space-y-8"
-          : "flex-1"
-      }`}
-    >
-      <div className={highlight ? "grid gap-6 sm:grid-cols-2" : ""}>
-        <div className="space-y-4">
-          <div>
-            <h2 className="font-medium text-foreground">{title}</h2>
-            <span className="my-3 block text-2xl font-semibold text-foreground">
-              {price}
-            </span>
-            <p className="text-muted-foreground text-sm">{description}</p>
-          </div>
-          <Button
-            className="w-full"
-            variant={highlight ? "default" : "outline"}
-          >
-            Começar Agora
-          </Button>
-        </div>
-      </div>
-      {highlight && (
-        <div className="text-sm font-medium text-foreground">
-          Tudo do Grátis, mais:
-        </div>
-      )}
-      <ul
-        className={`${
-          highlight ? "mt-4" : "border-t border-border pt-4"
-        } list-outside space-y-3 text-sm`}
-      >
-        {features.map((item, index) => (
-          <li key={index} className="flex items-center gap-2 text-foreground">
-            <CheckCircle2 className="w-4 h-4 text-primary" />
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+// function PricingCard({
+//   title,
+//   price,
+//   description,
+//   features,
+//   highlight = false,
+// }: {
+//   title: string;
+//   price: string;
+//   description: string;
+//   features: string[];
+//   highlight?: boolean;
+// }) {
+//   return (
+//     <div
+//       className={`flex flex-col justify-between p-6 space-y-4 ${
+//         highlight
+//           ? "bg-secondary rounded-xl w-full md:w-1/2 space-y-8"
+//           : "flex-1"
+//       }`}
+//     >
+//       <div className={highlight ? "grid gap-6 sm:grid-cols-2" : ""}>
+//         <div className="space-y-4">
+//           <div>
+//             <h2 className="font-medium text-foreground">{title}</h2>
+//             <span className="my-3 block text-2xl font-semibold text-foreground">
+//               {price}
+//             </span>
+//             <p className="text-muted-foreground text-sm">{description}</p>
+//           </div>
+//           <Button
+//             className="w-full"
+//             variant={highlight ? "default" : "outline"}
+//           >
+//             Começar Agora
+//           </Button>
+//         </div>
+//       </div>
+//       {highlight && (
+//         <div className="text-sm font-medium text-foreground">
+//           Tudo do Grátis, mais:
+//         </div>
+//       )}
+//       <ul
+//         className={`${
+//           highlight ? "mt-4" : "border-t border-border pt-4"
+//         } list-outside space-y-3 text-sm`}
+//       >
+//         {features.map((item, index) => (
+//           <li key={index} className="flex items-center gap-2 text-foreground">
+//             <CheckCircle2 className="w-4 h-4 text-primary" />
+//             {item}
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
 
 // Main Dashboard Component
 function GymLogDashboard() {
@@ -519,8 +520,8 @@ function GymLogDashboard() {
   const handleToggleGoal = (goalId: string) => {
     setGoals((prev) =>
       prev.map((goal) =>
-        goal.id === goalId ? { ...goal, isCompleted: !goal.isCompleted } : goal
-      )
+        goal.id === goalId ? { ...goal, isCompleted: !goal.isCompleted } : goal,
+      ),
     );
   };
 

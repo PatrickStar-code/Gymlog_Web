@@ -24,13 +24,6 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
-interface FormData {
-  gender: string;
-  birthdate: string;
-  height: string;
-  weight: string;
-  goal: string;
-}
 
 const formSchema = z.object({
   gender: z.string().min(1),
@@ -53,7 +46,7 @@ export default function StepUpRegister() {
   const totalSteps = 4;
   const progress = (currentStep / totalSteps) * 100;
 
-  const { register, handleSubmit, watch, reset, setValue, control } = useForm({
+  const { register, handleSubmit, watch, reset, control } = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       gender: "",
@@ -72,6 +65,7 @@ export default function StepUpRegister() {
 
   const onStepSubmit = (data: FormSchemaType) => {
     console.log("Form Data:", data);
+    reset();
   };
 
   const isStepValid = () => {
@@ -118,7 +112,7 @@ export default function StepUpRegister() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
+    <div className="min-h-screen  from-background via-background to-muted/20 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl shadow-2xl">
         <form onSubmit={handleSubmit(onStepSubmit)}>
           <CardHeader className="space-y-4">
@@ -153,8 +147,8 @@ export default function StepUpRegister() {
                         isCompleted
                           ? "bg-primary text-primary-foreground"
                           : isCurrent
-                          ? "bg-primary/20 text-primary border-2 border-primary"
-                          : "bg-muted text-muted-foreground"
+                            ? "bg-primary/20 text-primary border-2 border-primary"
+                            : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {isCompleted ? (
@@ -276,7 +270,7 @@ export default function StepUpRegister() {
               <div className="space-y-6 animate-in fade-in-50 duration-500">
                 <div className="space-y-3">
                   <Label className="text-lg font-semibold">
-                    What's Your Goal?
+                    Qual é o seu Objetivo Principal?
                   </Label>
                   <Controller
                     control={control}

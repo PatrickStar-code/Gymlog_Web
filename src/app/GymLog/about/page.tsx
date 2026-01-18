@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { cn as cnUtil } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,18 +29,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import {
-  motion,
-  Variants,
-  useScroll,
-  useTransform,
-  useInView,
-} from "framer-motion";
-
-// Utils
-function cn(...inputs: any[]) {
-  return cnUtil(...inputs);
-}
+import { motion, Variants } from "framer-motion";
 
 // Smooth scroll function
 function smoothScrollTo(elementId: string) {
@@ -77,12 +66,12 @@ export function TestimonialCard({
       {...(href ? { href } : {})}
       className={cn(
         "flex flex-col rounded-lg border-t",
-        "bg-gradient-to-b from-muted/50 to-muted/10",
+        " from-muted/50 to-muted/10",
         "p-4 text-start sm:p-6",
         "hover:from-muted/60 hover:to-muted/20",
-        "max-w-[320px] sm:max-w-[320px]",
+        "max-w-xs sm:max-w-xs",
         "transition-colors duration-300",
-        className
+        className,
       )}
     >
       <div className="flex items-center gap-3">
@@ -184,7 +173,7 @@ const Header = () => {
           className={cn(
             "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12",
             isScrolled &&
-              "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5"
+              "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5",
           )}
         >
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
@@ -259,7 +248,9 @@ const Header = () => {
 
 // Hero Section
 const HeroSection = () => {
-  const transitionVariants = {
+  const transitionVariants: {
+    item: Variants;
+  } = {
     item: {
       hidden: {
         opacity: 0,
@@ -271,7 +262,7 @@ const HeroSection = () => {
         filter: "blur(0px)",
         y: 0,
         transition: {
-          type: "spring",
+          type: "spring" as const,
           bounce: 0.3,
           duration: 1.5,
         },
@@ -283,7 +274,7 @@ const HeroSection = () => {
     <section className="relative pt-24 md:pt-36 overflow-hidden min-h-screen flex items-center">
       {/* Animated gradient background */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-background" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary/20 via-background to-background" />
         <div className="absolute top-0 -left-40 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-pulse" />
         <div
           className="absolute bottom-0 -right-40 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
@@ -299,7 +290,7 @@ const HeroSection = () => {
               onClick={() => smoothScrollTo("#features")}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="hover:bg-background dark:hover:border-t-border bg-gradient-to-r from-primary/10 to-purple-500/10 group mx-auto flex w-fit items-center gap-4 rounded-full border border-primary/20 p-1 pl-4 shadow-lg shadow-primary/20 transition-all duration-300 backdrop-blur-sm cursor-pointer"
+              className="hover:bg-background dark:hover:border-t-border bg-linear-to-r from-primary/10 to-purple-500/10 group mx-auto flex w-fit items-center gap-4 rounded-full border border-primary/20 p-1 pl-4 shadow-lg shadow-primary/20 transition-all duration-300 backdrop-blur-sm cursor-pointer"
             >
               <span className="text-foreground text-sm font-medium flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-primary" />
@@ -326,11 +317,11 @@ const HeroSection = () => {
             >
               Transforme sua{" "}
               <span className="relative inline-block">
-                <span className="bg-gradient-to-r from-primary via-orange-500 to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                <span className="bg-linear-to-r from-primary via-orange-500 to-primary bg-clip-text text-transparent animate-gradient bg-size-[200%_auto]">
                   Jornada Fitness
                 </span>
                 <motion.span
-                  className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-orange-500 rounded-full"
+                  className="absolute -bottom-2 left-0 w-full h-1 bg-linear-to-r from-primary to-orange-500 rounded-full"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.5, duration: 0.8 }}
@@ -345,25 +336,10 @@ const HeroSection = () => {
               físico em uma única plataforma.
             </p>
           </AnimatedGroup>
-
-          <AnimatedGroup
-            variants={{
-              container: {
-                visible: {
-                  transition: {
-                    staggerChildren: 0.05,
-                    delayChildren: 0.75,
-                  },
-                },
-              },
-              ...transitionVariants,
-            }}
-            className="mt-12 flex flex-col items-center justify-center gap-4 md:flex-row"
-          ></AnimatedGroup>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent pointer-events-none" />
     </section>
   );
 };
@@ -544,7 +520,7 @@ const PricingSection = () => {
       id="pricing"
       className="py-16 md:py-32 relative overflow-hidden scroll-mt-20"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/5 to-transparent" />
       <div className="mx-auto max-w-7xl px-6 relative">
         <motion.div
           className="text-center mb-16"
@@ -559,7 +535,7 @@ const PricingSection = () => {
           </Badge>
           <h2 className="text-4xl md:text-6xl font-black mb-4">
             Simples, Transparente{" "}
-            <span className="bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary to-orange-600 bg-clip-text text-transparent">
               Preços
             </span>
           </h2>
@@ -586,7 +562,7 @@ const PricingSection = () => {
               className="relative group"
             >
               {plan.popular && (
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <div className="absolute -inset-1 bg-linear-to-r from-primary to-purple-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition duration-300"></div>
               )}
               <Card
                 className={cn(
@@ -596,13 +572,13 @@ const PricingSection = () => {
                     : "hover:shadow-xl",
                   hoveredIndex === index &&
                     !plan.popular &&
-                    "border-primary/50 shadow-lg"
+                    "border-primary/50 shadow-lg",
                 )}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <motion.span
-                      className="bg-gradient-to-r from-primary to-orange-600 text-primary-foreground px-6 py-1.5 rounded-full text-sm font-bold shadow-lg"
+                      className="bg-linear-to-r from-primary to-orange-600 text-primary-foreground px-6 py-1.5 rounded-full text-sm font-bold shadow-lg"
                       animate={{ scale: [1, 1.05, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
@@ -614,7 +590,7 @@ const PricingSection = () => {
                   <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                   <div className="mb-6">
                     <motion.span
-                      className="text-5xl font-black bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
+                      className="text-5xl font-black bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
                       animate={
                         hoveredIndex === index ? { scale: 1.1 } : { scale: 1 }
                       }
@@ -673,7 +649,6 @@ interface TestimonialsSectionProps {
 
 function TestimonialsSection({
   title,
-  description,
   testimonials,
   className,
 }: TestimonialsSectionProps) {
@@ -683,7 +658,7 @@ function TestimonialsSection({
       className={cn(
         "bg-background text-foreground",
         "py-12 sm:py-24 md:py-32 px-0 scroll-mt-20",
-        className
+        className,
       )}
     >
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 text-center sm:gap-16">
@@ -705,18 +680,18 @@ function TestimonialsSection({
         </motion.div>
 
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-          <div className="group flex overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)] flex-row [--duration:40s]">
-            <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
+          <div className="group flex overflow-hidden p-2 [--gap:1rem] gap-[(--gap)] flex-row [--duration:40s]">
+            <div className="flex shrink-0 justify-around gap-[(--gap)] animate-marquee flex-row group-hover:paused]">
               {[...Array(4)].map((_, setIndex) =>
                 testimonials.map((testimonial, i) => (
                   <TestimonialCard key={`${setIndex}-${i}`} {...testimonial} />
-                ))
+                )),
               )}
             </div>
           </div>
 
-          <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-background sm:block" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/3 bg-gradient-to-l from-background sm:block" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-linear-to-r from-background sm:block" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/3 bg-linear-to-l from-background sm:block" />
         </div>
       </div>
     </section>
@@ -805,7 +780,7 @@ const FAQSection = () => {
                   <ChevronDown
                     className={cn(
                       "h-5 w-5 shrink-0 transition-transform duration-300",
-                      openIndex === index && "rotate-180"
+                      openIndex === index && "rotate-180",
                     )}
                   />
                 </button>
