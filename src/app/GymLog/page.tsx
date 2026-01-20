@@ -6,7 +6,6 @@ import {
   LayoutDashboard,
   Dumbbell,
   UtensilsCrossed,
-  TrendingUp,
   Settings,
   LogOut,
   ChevronLeft,
@@ -23,6 +22,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import TreinosMenu from "@/components/dashboardMenu/TreinosMenu";
+import DietaMenu from "@/components/dashboardMenu/DietaMenu";
+import ConfigMenu from "@/components/dashboardMenu/ConfigMenu";
 // Types
 interface Metric {
   label: string;
@@ -220,6 +222,7 @@ function ActivityCard({
               Metas de Hoje
             </h4>
             <button
+              title="button to add Goal"
               type="button"
               onClick={onAddGoal}
               className="p-1.5 rounded-full hover:bg-muted transition-colors"
@@ -413,12 +416,34 @@ function GymLogDashboard() {
     { id: "2", title: "Beber 2L de Água", isCompleted: false },
     { id: "3", title: "Completar Treino de Força", isCompleted: false },
   ]);
+  const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [formData, setFormData] = useState<Partial<Workout>>({});
+
+  const handleCreate = () => {
+  setFormData({});
+  setIsEditMode(false);
+  setIsCreateOpen(true);
+};
+
+const handleEdit = (workout: Workout) => {
+  setSelectedWorkout(workout);
+  setFormData(workout);
+  setIsEditMode(true);
+};
+
+const handleCloseDialogs = () => {
+  setIsCreateOpen(false);
+  setIsEditMode(false);
+  setSelectedWorkout(null);
+};
+
 
   const menuItems = [
     { name: "Dashboard", icon: LayoutDashboard, href: "#dashboard" },
     { name: "Treinos", icon: Dumbbell, href: "#treinos" },
     { name: "Dieta", icon: UtensilsCrossed, href: "#dieta" },
-    { name: "Progresso", icon: TrendingUp, href: "#progresso" },
     { name: "Configurações", icon: Settings, href: "#config" },
     { name: "Sair", icon: LogOut, href: "#sair" },
   ];
@@ -534,6 +559,12 @@ function GymLogDashboard() {
     setGoals((prev) => [...prev, newGoal]);
   };
 
+  const render = {
+    Treinos: <TreinosMenu />,
+    Dieta: <DietaMenu />,
+    Configurações: <ConfigMenu />,
+  };
+
   const renderContent = () => {
     if (activeItem === "Dashboard") {
       return (
@@ -577,7 +608,7 @@ function GymLogDashboard() {
     if (
       activeItem === "Treinos" ||
       activeItem === "Dieta" ||
-      activeItem === "Progresso"
+      activeItem === "Configurações"
     ) {
       return (
         <div className="space-y-8">
@@ -585,14 +616,14 @@ function GymLogDashboard() {
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
               {activeItem}
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Gerencie seus {activeItem.toLowerCase()} com IA
-            </p>
+            {activeItem && activeItem !== "Configurações" && (
+              <p className="mt-1 text-sm text-muted-foreground">
+                Gerencie seus {activeItem.toLowerCase()} com IA
+              </p>
+            )}
           </header>
-          <div className="bg-card rounded-xl shadow-lg p-8 border border-border">
-            <p className="text-muted-foreground">
-              Conteúdo de {activeItem} em desenvolvimento...
-            </p>
+          <div className=" rounded-xl shadow-lg p-8 border border-border">
+            {render[activeItem]}
           </div>
         </div>
       );
@@ -636,6 +667,7 @@ function GymLogDashboard() {
             )}
           </div>
           <button
+            title="button to open sideBar"
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="hidden lg:block p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors duration-200"
           >

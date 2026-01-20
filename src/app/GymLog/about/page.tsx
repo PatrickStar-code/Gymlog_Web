@@ -451,9 +451,9 @@ const FeaturesSection = () => {
                     >
                       {feature.icon}
                     </motion.div>
-                    <Badge variant="secondary" className="text-xs">
+                    {/* <Badge variant="secondary" className="text-xs">
                       {feature.badge}
-                    </Badge>
+                    </Badge>  */}
                   </div>
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                     {feature.title}
