@@ -10,7 +10,6 @@ import {
   Activity,
   Clock,
   Target,
-  Filter,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,7 +46,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Exercise {

@@ -416,28 +416,6 @@ function GymLogDashboard() {
     { id: "2", title: "Beber 2L de Água", isCompleted: false },
     { id: "3", title: "Completar Treino de Força", isCompleted: false },
   ]);
-  const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [formData, setFormData] = useState<Partial<Workout>>({});
-
-  const handleCreate = () => {
-  setFormData({});
-  setIsEditMode(false);
-  setIsCreateOpen(true);
-};
-
-const handleEdit = (workout: Workout) => {
-  setSelectedWorkout(workout);
-  setFormData(workout);
-  setIsEditMode(true);
-};
-
-const handleCloseDialogs = () => {
-  setIsCreateOpen(false);
-  setIsEditMode(false);
-  setSelectedWorkout(null);
-};
 
 
   const menuItems = [
