@@ -20,11 +20,16 @@ import {
   Calendar,
   Weight,
   Target,
+  Venus,
+  Mars,
+  Transgender,
 } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 
+const date = new Date();
+const formattedDate = new Intl.DateTimeFormat('pt-BR')
 const formSchema = z.object({
   gender: z.string().min(1),
   birthdate: z
@@ -143,13 +148,12 @@ export default function StepUpRegister() {
                     className="flex flex-col items-center gap-2 flex-1"
                   >
                     <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                        isCompleted
-                          ? "bg-primary text-primary-foreground"
-                          : isCurrent
-                            ? "bg-primary/20 text-primary border-2 border-primary"
-                            : "bg-muted text-muted-foreground"
-                      }`}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isCompleted
+                        ? "bg-primary text-primary-foreground"
+                        : isCurrent
+                          ? "bg-primary/20 text-primary border-2 border-primary"
+                          : "bg-muted text-muted-foreground"
+                        }`}
                     >
                       {isCompleted ? (
                         <Check className="w-6 h-6" />
@@ -158,9 +162,8 @@ export default function StepUpRegister() {
                       )}
                     </div>
                     <span
-                      className={`text-xs font-medium hidden sm:block ${
-                        isCurrent ? "text-foreground" : "text-muted-foreground"
-                      }`}
+                      className={`text-xs font-medium hidden sm:block ${isCurrent ? "text-foreground" : "text-muted-foreground"
+                        }`}
                     >
                       {step.label}
                     </span>
@@ -197,7 +200,13 @@ export default function StepUpRegister() {
                               htmlFor={item}
                               className="flex flex-col items-center justify-center rounded-lg border-2 border-muted bg-background p-6 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 cursor-pointer transition-all"
                             >
-                              <User className="mb-3 h-8 w-8" />
+                              {item === "Homem" ? (
+                                <Mars className="mb-3 h-8 w-8" />
+                              ) : item === "Mulher" ? (
+                                <Venus className="mb-3 h-8 w-8" />
+                              ) : (
+                                <Transgender className="mb-3 h-8 w-8" />
+                              )}
                               <span className="font-medium">{item}</span>
                             </Label>
                           </div>
@@ -221,7 +230,7 @@ export default function StepUpRegister() {
                     placeholder="Select your birth date"
                     {...register("birthdate")}
                     className="text-lg h-14"
-                    max={new Date().toISOString().split("T")[0]}
+                    max={date.toISOString().split("T")[0]}
                   />
                   <p className="text-sm text-muted-foreground">
                     Isso nos ajuda a personalizar sua experiência.
@@ -340,7 +349,7 @@ export default function StepUpRegister() {
                 className="gap-2"
               >
                 <ChevronLeft className="w-4 h-4" />
-                Previous
+                Anterior
               </Button>
 
               {currentStep < totalSteps ? (
@@ -349,7 +358,7 @@ export default function StepUpRegister() {
                   disabled={!isStepValid()}
                   className="gap-2"
                 >
-                  Next
+                  Proximo
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               ) : (
