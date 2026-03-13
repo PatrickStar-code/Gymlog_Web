@@ -6,13 +6,15 @@ import { slide } from "@/app/GymLog/auth/login/page";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
+import login from "@/app/Actions/login";
+import ActionLogin from "@/app/Actions/login";
 
 const LoginSchema = zod.object({
   email: zod.string().email("Email inválido"),
   password: zod.string().min(6, "Senha inválida"),
 });
 
-type LoginFormData = zod.infer<typeof LoginSchema>;
+export type LoginFormData = zod.infer<typeof LoginSchema>;
 
 export default function FormLogin() {
   const {
@@ -25,7 +27,7 @@ export default function FormLogin() {
   });
 
   function submit(data: LoginFormData) {
-    console.log(data);
+    ActionLogin(data);
     reset();
   }
 
@@ -44,9 +46,8 @@ export default function FormLogin() {
         type="email"
         placeholder="Email"
         {...register("email")}
-        className={`w-full px-4 py-3 rounded-lg text-black border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-          errors.email ? "border-red-500" : ""
-        }`}
+        className={`w-full px-4 py-3 rounded-lg text-black border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.email ? "border-red-500" : ""
+          }`}
       />
       {errors.email && (
         <span className="text-sm text-red-500">{errors.email.message}</span>
@@ -55,9 +56,8 @@ export default function FormLogin() {
         type="password"
         placeholder="Senha"
         {...register("password")}
-        className={`w-full text-black px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-          errors.password ? "border-red-500" : ""
-        }`}
+        className={`w-full text-black px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 ${errors.password ? "border-red-500" : ""
+          }`}
       />
       {errors.password && (
         <span className="text-sm text-red-500">{errors.password.message}</span>
