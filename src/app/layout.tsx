@@ -4,6 +4,8 @@ import "./globals.css";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import ThemeContextProvider from "./Contexts/ThemeProvider";
 
+import { AuthProvider } from "./Contexts/AuthContext";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,10 +34,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeContextProvider>
-          {children}
-          <AnimatedThemeToggler className="fixed right-10 top-10 z-50 bg-[#BF4520] text-white p-4 rounded-2xl " />
-        </ThemeContextProvider>
+        <AuthProvider>
+          <ThemeContextProvider>
+            {children}
+            <AnimatedThemeToggler className="fixed right-10 top-10 z-50 bg-[#BF4520] text-white p-4 rounded-2xl " />
+          </ThemeContextProvider>
+        </AuthProvider>
       </body>
     </html>
   );

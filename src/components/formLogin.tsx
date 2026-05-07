@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { slide } from "@/app/GymLog/auth/login/page";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
-import login from "@/app/Actions/login";
-import ActionLogin from "@/app/Actions/login";
+import { useAuth } from "@/app/Contexts/AuthContext";
+import { fetchApi } from "@/lib/fetchApi";
 
 const LoginSchema = zod.object({
   email: zod.string().email("Email inválido"),
@@ -17,6 +17,10 @@ const LoginSchema = zod.object({
 export type LoginFormData = zod.infer<typeof LoginSchema>;
 
 export default function FormLogin() {
+  const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [globalError, setGlobalError] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -26,9 +30,23 @@ export default function FormLogin() {
     resolver: zodResolver(LoginSchema),
   });
 
-  function submit(data: LoginFormData) {
-    ActionLogin(data);
-    reset();
+  async function submit(data: LoginFormData) {
+    setLoading(true);
+    setGlobalError("");
+    try {
+      const res = await fetchApi("/auth/login", {
+        method: "POST",
+        data,
+      });
+      if (res && res.token) {
+        login(res.token, res.user || { email: data.email });
+        reset();
+      }
+    } catch (e: any) {
+      setGlobalError(e.message || "Credenciais inválidas");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -42,6 +60,11 @@ export default function FormLogin() {
       className="space-y-5"
       onSubmit={handleSubmit(submit)}
     >
+      {globalError && (
+        <div className="p-3 text-sm text-red-500 bg-red-100/50 rounded-lg border border-red-200">
+          {globalError}
+        </div>
+      )}
       <input
         type="email"
         placeholder="Email"
