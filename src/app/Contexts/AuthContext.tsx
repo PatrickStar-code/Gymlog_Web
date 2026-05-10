@@ -13,7 +13,7 @@ export interface User {
 interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (token: string, userData: User) => void;
+  login: (token: string, userData: User, redirectPath?: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -40,12 +40,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoading(false);
   }, []);
 
-  const login = (newToken: string, userData: User) => {
+  const login = (newToken: string, userData: User, redirectPath: string = "/GymLog/dashboard") => {
     localStorage.setItem("gymlog_token", newToken);
     localStorage.setItem("gymlog_user", JSON.stringify(userData));
     setToken(newToken);
     setUser(userData);
-    router.push("/GymLog/dashboard");
+    router.push(redirectPath);
   };
 
   const logout = () => {
@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
   }
   return context;
 };

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import ThemeContextProvider from "./Contexts/ThemeProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./Contexts/AuthContext";
 
@@ -37,6 +39,7 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeContextProvider>
             {children}
+            <ToastContainer position="top-bottom" autoClose={3000} />
             <AnimatedThemeToggler className="fixed right-10 top-10 z-50 bg-[#BF4520] text-white p-4 rounded-2xl " />
           </ThemeContextProvider>
         </AuthProvider>

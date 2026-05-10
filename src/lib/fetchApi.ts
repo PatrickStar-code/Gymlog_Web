@@ -35,23 +35,47 @@ export async function fetchApi(url: string, options: FetchOptions = {}) {
   const response = await fetch(`${BASE_URL}${url}`, config);
 
   if (!response.ok) {
-    let errorMsg = "Ocorreu um erro na requisição.";
-    try {
-      const errorData = await response.json();
-      errorMsg = errorData.message || errorData.error || errorMsg;
-    } catch (e) {
-      // Ignore
+
+    if (response.status === 409) {
+      let errorMsg = "Usuário já cadastrado.";
+      try {
+        const errorData = await response.json();
+        errorMsg = errorData.message || errorData.error || errorMsg;
+      } catch (e) {
+        // Ignore
+      }
+      throw new Error(errorMsg);
     }
-    throw new Error(errorMsg);
-  }
+    else if (response.status === 401) {
+      let errorMsg = "Não autorizado.";
+      try {
+        const errorData = await response.json();
+        errorMsg = errorData.message || errorData.error || errorMsg;
+      } catch (e) {
+        // Ignore
+      }
+      throw new Error(errorMsg);
+    }
+    else {
+      let errorMsg = "Ocorreu um erro na requisição.";
+      try {
+        const errorData = await response.json();
+        errorMsg = errorData.message || errorData.error || errorMsg;
+      } catch (e) {
+        // Ignore
+      }
+      throw new Error(errorMsg);
+    }
 
-  if (response.status === 204) {
-    return null;
-  }
 
-  try {
-    return await response.json();
-  } catch (e) {
-    return null;
+
+    if (response.status === 204) {
+      return null;
+    }
+
+    try {
+      return await response.json();
+    } catch (e) {
+      return null;
+    }
   }
-}

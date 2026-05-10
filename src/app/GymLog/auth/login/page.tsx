@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FormLogin from "@/components/formLogin";
 import FormRegister from "@/components/formRegister";
 import { NotepadText } from "lucide-react";
 import { Button } from "@/components/button-notFound";
 import { RiFacebookFill, RiGoogleFill } from "@remixicon/react";
+import { useAuth } from "@/app/Contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 export const slide = {
   initial: { opacity: 0, y: 60, scale: 0.95 },
@@ -26,6 +28,15 @@ export const slide = {
 export default function AuthPage() {
   const [mode, setMode] = useState<"signin" | "register">("signin");
   const switchTo = (m: "signin" | "register") => setMode(m);
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/GymLog/dashboard");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="min-h-screen flex items-center justify-center p-6 overflow-hidden relative">
@@ -123,31 +134,6 @@ export default function AuthPage() {
                 <FormRegister key="register" />
               )}
             </AnimatePresence>
-
-            {/* Social Login */}
-            <div className="mt-6 text-center text-sm text-gray-500">
-              <p>Ou continue com</p>
-              <div className="flex flex-wrap items-center justify-center gap-2 mr-8 mt-4">
-                <div>
-                  <Button
-                    variant="outline"
-                    aria-label="Login with Google"
-                    size="icon"
-                  >
-                    <RiGoogleFill size={16} aria-hidden="true" />
-                  </Button>
-                </div>
-                <div>
-                  <Button
-                    variant="outline"
-                    aria-label="Login with Facebook"
-                    size="icon"
-                  >
-                    <RiFacebookFill size={16} aria-hidden="true" />
-                  </Button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </motion.div>

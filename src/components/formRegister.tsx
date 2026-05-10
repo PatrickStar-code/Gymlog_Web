@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { slide } from "@/app/GymLog/auth/login/page";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
 import { fetchApi } from "@/lib/fetchApi";
 import { useAuth } from "@/app/Contexts/AuthContext";
+import { Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const RegisterSchema = zod.object({
   email: zod.string().email("Email inválido"),
@@ -33,30 +34,56 @@ export default function FormRegister() {
     setLoading(true);
     setGlobalError("");
     try {
-      const res = await fetchApi("/auth/register", {
+      const res = await fetchApi("/users/register", {
         method: "POST",
         data: {
-          name: data.nome,
+          username: data.nome,
           email: data.email,
           password: data.password,
         },
       });
-      // Optionally login automatically
-      if (res && res.token) {
-        login(res.token, res.user || { name: data.nome, email: data.email });
-      } else {
-        // Fallback standard explicit login simulation just in case
+
+      if (res) {
+        console.log(res);
+        if (res.status === 409) {
+          const errorMessage = "Usuario ja cadastrado";
+          setGlobalError(errorMessage);
+          toast.error(errorMessage);
+          reset();
+          return;
+        }
+
+        toast.success("Cadastro realizado com sucesso!");
+
         const loginRes = await fetchApi("/auth/login", {
           method: "POST",
-          data: { email: data.email, password: data.password },
+          data: {
+            email: data.email,
+            password: data.password,
+          },
         });
-        if (loginRes && loginRes.token) {
-          login(loginRes.token, loginRes.user || { name: data.nome, email: data.email });
+
+        if (loginRes && loginRes.tokenJwt) {
+          const userRes = await fetchApi("/users/me", {
+            headers: {
+              Authorization: `Bearer ${loginRes.tokenJwt}`,
+            },
+          });
+          const redirectPath = loginRes.profileComplete
+            ? "/GymLog/dashboard"
+            : "/GymLog/auth/stepUp";
+          login(
+            loginRes.tokenJwt,
+            userRes || { email: data.email },
+            redirectPath,
+          );
         }
       }
-      reset();
-    } catch (e: any) {
-      setGlobalError(e.message || "Erro ao registrar");
+    } catch (e: unknown) {
+      const errorMessage =
+        (e as { message?: string }).message || "Erro ao registrar";
+      setGlobalError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -66,8 +93,6 @@ export default function FormRegister() {
     <motion.form
       key="register"
       onSubmit={handleSubmit(submit)}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      variants={slide as any}
       initial="initial"
       animate="animate"
       exit="exit"
@@ -112,9 +137,17 @@ export default function FormRegister() {
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
         type="submit"
+        disabled={loading}
         className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold shadow-md hover:bg-orange-600 transition"
       >
-        Criar conta
+        {loading ? (
+          <div className="flex items-center justify-center gap-2">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Criando conta...
+          </div>
+        ) : (
+          "Criar conta"
+        )}
       </motion.button>
     </motion.form>
   );

@@ -27,6 +27,10 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/dist/zod.js";
+import { useAuth } from "@/app/Contexts/AuthContext";
+import { fetchApi } from "@/lib/fetchApi";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const date = new Date();
 const formattedDate = new Intl.DateTimeFormat('pt-BR')
@@ -68,9 +72,46 @@ export default function StepUpRegister() {
   const weight = watch("weight");
   const goal = watch("goal");
 
-  const onStepSubmit = (data: FormSchemaType) => {
-    console.log("Form Data:", data);
-    reset();
+  const { token, login, user } = useAuth();
+  const router = useRouter();
+
+  const onStepSubmit = async (data: FormSchemaType) => {
+    try {
+      const mapGender = (g: string) => {
+        if (g === "Homem") return "MALE";
+        if (g === "Mulher") return "FEMALE";
+        return "MALE"; // default mapping for "Outro"
+      };
+
+      const mapGoal = (g: string) => {
+        if (g === "lose_weight") return "LOSE_WEIGHT";
+        if (g === "gain_weight") return "GAIN_WEIGHT"; // Assuming GAIN_WEIGHT maps to build muscle
+        if (g === "maintain_weight") return "MAINTAIN_WEIGHT";
+        return "GAIN_WEIGHT"; // default for define_body
+      };
+
+      const res = await fetchApi("/users/me/step-up", {
+        method: "PUT",
+        data: {
+          gender: mapGender(data.gender),
+          birthdate: new Date(data.birthdate).toISOString(),
+          height: data.height,
+          weight: data.weight,
+          goal: mapGoal(data.goal),
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      if (user && token) {
+        login(token, { ...user, ...res }, "/GymLog/dashboard");
+      }
+      toast.success("Perfil atualizado com sucesso!");
+    } catch (e) {
+      toast.error("Erro ao atualizar perfil");
+      console.error(e);
+    }
   };
 
   const isStepValid = () => {
